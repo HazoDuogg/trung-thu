@@ -1,0 +1,351 @@
+<!doctype html>
+<html lang="vi">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Đêm Trung Thu - Lồng Đèn Bay & Lời Chúc</title>
+    <style>
+        :root {
+            --bg1: #0b1226;
+            --bg2: #071129;
+            --text: #fff;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body,
+        html {
+            margin: 0;
+            height: 100%;
+            background: linear-gradient(to bottom, var(--bg1), var(--bg2));
+            font-family: 'Inter', sans-serif;
+            color: var(--text);
+            overflow: hidden;
+        }
+
+        h1 {
+            text-align: center;
+            padding-top: 20px;
+            font-size: 32px;
+            letter-spacing: 1px;
+        }
+
+        .scene {
+            position: relative;
+            width: 100%;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        /* Trăng và sao */
+        .moon {
+            position: absolute;
+            right: 8%;
+            top: 6%;
+            width: 130px;
+            height: 130px;
+            border-radius: 50%;
+            background: radial-gradient(circle at 30% 30%, #fff, #ffd27d);
+            box-shadow: 0 0 60px 20px rgba(255, 255, 200, .1);
+            z-index: 1;
+        }
+
+        .sky {
+            position: absolute;
+            inset: 0;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .star {
+            position: absolute;
+            border-radius: 50%;
+            background: radial-gradient(circle, #fff 0%, transparent 70%);
+            animation: twinkle 4s ease-in-out infinite;
+        }
+
+        @keyframes twinkle {
+
+            0%,
+            100% {
+                opacity: .8;
+            }
+
+            50% {
+                opacity: .2;
+            }
+        }
+
+        /* Lồng đèn */
+        .lantern {
+            position: absolute;
+            width: 80px;
+            height: 120px;
+            cursor: pointer;
+            transform-origin: center bottom;
+            z-index: 2;
+        }
+
+        .lantern .body {
+            width: 70px;
+            height: 100px;
+            border-radius: 50% 50% 40% 40% / 60% 60% 20% 20%;
+            background: linear-gradient(180deg, #ff9f6a, #ff7b94);
+            box-shadow: 0 0 25px rgba(255, 150, 100, .6), 0 0 50px rgba(255, 180, 120, .2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+
+        .lantern .top,
+        .lantern .bottom {
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 50px;
+            height: 8px;
+            background: #ffdca3;
+            border-radius: 5px;
+        }
+
+        .lantern .top {
+            top: -10px;
+        }
+
+        .lantern .bottom {
+            bottom: -10px;
+        }
+
+        .lantern .string {
+            position: absolute;
+            top: -40px;
+            left: 50%;
+            width: 2px;
+            height: 40px;
+            background: #ffdca3;
+            transform: translateX(-50%);
+        }
+
+        .lantern .label {
+            position: absolute;
+            bottom: 10px;
+            font-size: 13px;
+            background: rgba(255, 255, 255, .8);
+            color: #222;
+            padding: 2px 8px;
+            border-radius: 8px;
+        }
+
+        /* Bay lên xuống và tới lui, có lắc lư nhẹ */
+        @keyframes flyAround {
+            0% {
+                transform: translateX(-10vw) translateY(0) rotate(-3deg);
+                opacity: 0;
+            }
+
+            10% {
+                opacity: 1;
+            }
+
+            25% {
+                transform: translateX(20vw) translateY(-30px) rotate(3deg);
+                opacity: 1;
+            }
+
+            50% {
+                transform: translateX(50vw) translateY(10px) rotate(-2deg);
+                opacity: 1;
+            }
+
+            75% {
+                transform: translateX(80vw) translateY(-25px) rotate(2deg);
+                opacity: 1;
+            }
+
+            100% {
+                transform: translateX(110vw) translateY(0) rotate(-3deg);
+                opacity: 0;
+            }
+        }
+
+        @keyframes sway {
+            0% {
+                transform: rotate(-2deg);
+            }
+
+            50% {
+                transform: rotate(2deg);
+            }
+
+            100% {
+                transform: rotate(-2deg);
+            }
+        }
+
+        footer {
+            position: fixed;
+            bottom: 10px;
+            width: 100%;
+            text-align: center;
+            font-size: 14px;
+            opacity: .9;
+            z-index: 3;
+        }
+
+        /* Modal */
+        .modal-backdrop {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, .6);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            pointer-events: none;
+            transition: .3s;
+            z-index: 99;
+        }
+
+        .modal-backdrop.show {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .modal {
+            background: rgba(255, 255, 255, .1);
+            backdrop-filter: blur(8px);
+            padding: 20px 28px;
+            border-radius: 16px;
+            text-align: center;
+            color: #fff;
+            box-shadow: 0 0 20px rgba(0, 0, 0, .4);
+        }
+
+        .modal h2 {
+            margin-top: 0;
+            font-size: 22px;
+        }
+
+        .modal p {
+            font-size: 16px;
+            margin-bottom: 10px;
+        }
+
+        .btn {
+            background: #fff;
+            color: #000;
+            padding: 6px 14px;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>🌕 Đêm Trung Thu - Vui vẻ 🌕</h1>
+    <div class="scene">
+        <div class="sky" id="sky"></div>
+        <div class="moon"></div>
+    </div>
+    <footer>Nhấn vào lồng đèn để xem lời chúc! 🎑</footer>
+
+    <div id="modal" class="modal-backdrop">
+        <div class="modal">
+            <h2 id="modal-name">Tên</h2>
+            <p id="modal-wish">Lời chúc Trung Thu</p>
+            <button id="closeBtn" class="btn">Đóng</button>
+        </div>
+    </div>
+
+    <audio id="music"
+        src="/trungthu/music/Thằng Cuội Nhạc Không Lời Sáo Trúc   Nhạc Trung Thu 2022 - MH Không Lời (youtube).mp3"
+        autoplay loop></audio>
+
+    <script>
+        const people = [
+            { name: 'Lan Hương', wish: 'Đêm trung thu vui vẻ, hạnh phúc và càng xinh đẹp hơn nhen chị iu' },
+            { name: 'Thanh Nhàn', wish: 'Chúc chị đẹp hơn, vui vẻ hơn và nói chiện mắc cười nhiều hơn nhen chị iu' },
+            { name: 'Trí Tính', wish: 'Đêm nay vui vẻ, chúc có 6 múi sớm đi cua gái' },
+            { name: 'Thanh Nhiều', wish: 'Chúc hạnh phúc bên người ấy, vui vẻ hơn, đẹp trai hơn' },
+            { name: 'Nhất Khang', wish: 'Đêm trung thu vui hen, sớm cua được bối bối =))' }
+        ];
+
+        const sky = document.getElementById('sky');
+        for (let i = 0; i < 150; i++) {
+            const s = document.createElement('div');
+            s.className = 'star';
+            const size = Math.random() * 2 + 1;
+            s.style.width = s.style.height = size + 'px';
+            s.style.left = Math.random() * 100 + '%';
+            s.style.top = Math.random() * 100 + '%';
+            s.style.animationDuration = 2 + Math.random() * 5 + 's';
+            sky.appendChild(s);
+        }
+
+        const scene = document.querySelector('.scene');
+
+        // 5 lồng đèn có tên - bay lên xuống + lắc lư
+        people.forEach((p) => {
+            const l = document.createElement('div');
+            l.className = 'lantern';
+            const duration = 22 + Math.random() * 10;
+            const delay = Math.random() * -duration;
+            l.style.top = 20 + Math.random() * 60 + '%';
+            l.style.animation = `flyAround ${duration}s linear infinite`;
+            l.style.animationDelay = delay + 's';
+            l.innerHTML = `
+        <div class='string'></div>
+        <div class='body' style="animation: sway 3s ease-in-out infinite;">
+          <div class='top'></div>
+          <div class='bottom'></div>
+          <div class='label'>${p.name}</div>
+        </div>`;
+            l.addEventListener('click', () => openModal(p.name, p.wish));
+            scene.appendChild(l);
+        });
+
+        // Lồng đèn phụ
+        for (let i = 0; i < 15; i++) {
+            const l = document.createElement('div');
+            l.className = 'lantern';
+            const duration = 18 + Math.random() * 15;
+            const delay = Math.random() * -duration;
+            l.style.top = 10 + Math.random() * 70 + '%';
+            l.style.animation = `flyAround ${duration}s linear infinite`;
+            l.style.animationDelay = delay + 's';
+            l.innerHTML = `
+        <div class='string'></div>
+        <div class='body' style="animation: sway 3s ease-in-out infinite;">
+          <div class='top'></div>
+          <div class='bottom'></div>
+        </div>`;
+            scene.appendChild(l);
+        }
+
+        // Modal
+        const modal = document.getElementById('modal');
+        const modalName = document.getElementById('modal-name');
+        const modalWish = document.getElementById('modal-wish');
+        const closeBtn = document.getElementById('closeBtn');
+        function openModal(n, w) {
+            modalName.textContent = n;
+            modalWish.textContent = w;
+            modal.classList.add('show');
+        }
+        function closeModal() { modal.classList.remove('show'); }
+        closeBtn.onclick = closeModal;
+        modal.onclick = e => { if (e.target === modal) closeModal(); };
+
+        document.addEventListener('click', () => {
+            const m = document.getElementById('music');
+            m.volume = 0.4;
+            m.play();
+        });
+    </script>
+</body>
+
+</html>
